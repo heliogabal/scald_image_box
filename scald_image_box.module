@@ -1,0 +1,34 @@
+<?php
+/**
+ * @file
+ * Scald Image Box is a Scald Atom Player for lightboxed images.
+ */
+/**
+ * Implements hook_scald_player().
+ */
+function scald_image_box_scald_player() {
+  return array('image_box' => array(
+      'name' => 'Lightbox Image player',
+      'description' => 'XHTML player for image atoms in a lightbox.',
+      'type' => array('*'),
+    ));
+}
+/**
+ * Implements hook_scald_prerender().
+ */
+function scald_image_box_scald_prerender($atom, $context, $options, $mode) {
+  if ($mode == 'player') {
+    if (empty($options['link']) && module_exists('colorbox')) { // fancybox
+    //$url = image_style_url('large', $atom->file_source); // lightbox image style
+      $url = $atom->rendered->file_source_url; // lightbox to use original image
+      $atom->rendered->player = l($atom->rendered->player, $url, array (
+        'attributes' => array(
+          'title' => $atom->title,
+          'class' => array('colorbox'), // ('fancybox'),
+          'rel' => 'gallery-all', // 'gallery-page',
+        ),
+        'html' => TRUE
+      ));
+    }
+  }
+}

@@ -1,0 +1,5 @@
+name = Scald Image Box
+description = Provides Lightbox Image Player.
+package = Scald Players
+core = 7.x
+dependencies[] = scald_image
